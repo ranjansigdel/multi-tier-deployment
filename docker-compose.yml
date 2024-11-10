@@ -4,6 +4,8 @@ services:
     image: nginx:latest
     ports:
       - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html  
   api:
     image: node:14
     ports:
@@ -15,4 +17,3 @@ services:
       MYSQL_DATABASE: mydatabase
     ports:
       - "3306:3306"
-
