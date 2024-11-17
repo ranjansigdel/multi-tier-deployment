@@ -15,7 +15,7 @@ services:
     image: mysql:5.7
     container_name: database
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Change to a strong password
+      MYSQL_ROOT_PASSWORD: rootpassword  # Simple password for this project
       MYSQL_DATABASE: myappdb
       MYSQL_USER: myappuser
       MYSQL_PASSWORD: myapppassword
