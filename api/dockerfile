@@ -1,24 +1,11 @@
-# Use the official Python 3.10 slim image as the base image
-FROM python:3.10-slim
+# Use the official Nginx image as a base image
+FROM nginx:latest
 
-# Set the working directory inside the container
-WORKDIR /app
+# Copy custom Nginx config file (if you have one) to override default settings
+# COPY nginx.conf /etc/nginx/nginx.conf  # Uncomment if you have a custom config file
 
-# Copy the requirements.txt file into the container
-COPY requirements.txt .
+# Copy the frontend files (HTML, CSS, JS) into the Nginx web root directory
+COPY ./html /usr/share/nginx/html
 
-# Install the required Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code into the container
-COPY . .
-
-# Expose the Flask application port
-EXPOSE 5000
-
-# Set the environment variable for Flask
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-
-# Start the Flask app when the container starts
-CMD ["flask", "run"]
+# Expose port 80 (default HTTP port)
+EXPOSE 80
