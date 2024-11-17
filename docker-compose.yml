@@ -5,9 +5,9 @@ services:
     image: nginx:latest
     container_name: frontend
     ports:
-      - "8080:80" # Map Nginx frontend to port 8080
+      - "8080:80"  # Map Nginx frontend to port 8080
     volumes:
-      - ./frontend:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html  # Use 'html' directory instead of 'frontend'
     depends_on:
       - database
 
@@ -15,12 +15,12 @@ services:
     image: mysql:5.7
     container_name: database
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword # Change to a strong password
+      MYSQL_ROOT_PASSWORD: rootpassword  # Change to a strong password
       MYSQL_DATABASE: myappdb
       MYSQL_USER: myappuser
       MYSQL_PASSWORD: myapppassword
     ports:
-      - "3306:3306" # Map MySQL to port 3306
+      - "3306:3306"  # Map MySQL to port 3306
     volumes:
       - db_data:/var/lib/mysql
 
@@ -28,10 +28,10 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin
     environment:
-      PMA_HOST: database # Link to the 'database' service
+      PMA_HOST: database  # Link to the 'database' service
       PMA_PORT: 3306
     ports:
-      - "8081:80" # Map phpMyAdmin to port 8081
+      - "8081:80"  # Map phpMyAdmin to port 8081
     depends_on:
       - database
 
