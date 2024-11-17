@@ -1,25 +1,39 @@
-version: '3'
+version: '3.8'
+
 services:
   frontend:
     image: nginx:latest
+    container_name: frontend
     ports:
-      - "8080:80"
+      - "8080:80" # Map Nginx frontend to port 8080
     volumes:
-      - ./html:/usr/share/nginx/html  
-  api:
-    build:
-      context: ./api
-    ports:
-      - "5000:5000"
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - database
+
   database:
     image: mysql:5.7
+    container_name: database
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydatabase
+      MYSQL_ROOT_PASSWORD: rootpassword # Change to a strong password
+      MYSQL_DATABASE: myappdb
+      MYSQL_USER: myappuser
+      MYSQL_PASSWORD: myapppassword
     ports:
-      - "3306:3306"
+      - "3306:3306" # Map MySQL to port 3306
     volumes:
-      - mysql-data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: database # Link to the 'database' service
+      PMA_PORT: 3306
+    ports:
+      - "8081:80" # Map phpMyAdmin to port 8081
+    depends_on:
+      - database
 
 volumes:
-  mysql-data:
+  db_data:
